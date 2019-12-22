@@ -1,0 +1,100 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #141414;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#gameDiv {
+  background-color: #141414;
+  width: 95%;
+  height: 95%;
+}
+
+#gameDiv:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
+}
+
+#gameDiv:-moz-full-screen {
+  width: 100%;
+  height: 100%;
+}
+
+#gameDiv:-ms-fullscreen {
+  width: 100%;
+  height: 100%;
+}
+
+#gameDiv:fullscreen {
+  width: 100%;
+  height: 100%;
+}
+
+#gameDiv:-webkit-full-screen canvas {
+  border-radius: 0;
+}
+
+#gameDiv:-moz-full-screen canvas {
+  border-radius: 0;
+}
+
+#gameDiv:-ms-fullscreen canvas {
+  border-radius: 0;
+}
+
+#gameDiv:fullscreen canvas {
+  border-radius: 0;
+}
+
+#gameDiv > * {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform-origin: top left;
+          transform-origin: top left;
+}
+
+#gameDiv canvas {
+  border-radius: 10px;
+  border: solid #323232 2px;
+}
+
+#gameDiv #gameUI {
+  z-index: 10;
+  position: relative;
+}
+
+#gameDiv #gameUI i.material-icons {
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: white;
+  font-size: 52px;
+}
+
+#assets {
+  display: none;
+}
+/*# sourceMappingURL=main.css.map */
