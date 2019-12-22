@@ -1,17 +1,17 @@
-function drawRectangle(x, y, w, h) {
+function drawRectangle(x, y, w, h, color) {
   let ctx = gameCanvas.getContext("2d");
   ctx.beginPath();
-  ctx.fillStyle = "white";
+  ctx.fillStyle = color;
   ctx.rect(x, y, w, h);
   ctx.fill();
 
   return ctx;
 }
 
-function drawCircle(x, y, r) {
+function drawCircle(x, y, r, color) {
   let ctx = gameCanvas.getContext("2d");
   ctx.beginPath();
-  ctx.fillStyle = "white";
+  ctx.fillStyle = color;
   ctx.arc(x, y, r, 0, 2 * Math.PI);
   ctx.fill();
 
