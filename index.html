@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>wasm Head soccer</title>
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body onload="loaded()" onresize="resized()">
+    <div id="gameDiv">
+      <div id="gameUI">
+        <i class="material-icons" onclick="fullscreen()" id="fullScreenToggle">
+          fullscreen
+        </i>
+      </div>
+    </div>
+    <script src="scripts/scale.js"></script>
+    <script src="scripts/load.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/hello.js"></script>
+    <script src="scripts/draw.js"></script>
+    <script src="scripts/fullscreen.js"></script>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <div id="assets">
+      <img src="assets/football.png" alt="ball" />
+      <img src="assets/download.jpeg" alt="oof" />
+    </div>
+  </body>
+</html>
