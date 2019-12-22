@@ -3,8 +3,12 @@ var gameDiv;
 var gameUI;
 var fullScreenToggle;
 var assets = [];
+var inicijalizacija;
+var petlja;
 
 function loaded() {
+  inicijalizacija=Module.cwrap("init", null);
+  petlja=Module.cwrap("petlja", null);
   gameDiv = document.getElementById("gameDiv");
   gameUI = document.getElementById("gameUI");
   fullScreenToggle = document.getElementById("fullScreenToggle");

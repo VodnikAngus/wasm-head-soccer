@@ -3,7 +3,9 @@ var keydown = [];
 var keyup = [];
 var lastTime;
 var delta=0.00001;
+
 function mainLoop() {
+  inicijalizacija();
   loop();
 }
 
@@ -14,9 +16,7 @@ function loop(time) {
     delta=time - lastTime;
   } 
   lastTime = time;
-  clearCanvas();
-  img = drawImage(20 + i, 20 + i, 200, 200, 0);
-  i++;
+  petlja();
   keydown = [];
   keyup = [];
   window.requestAnimationFrame(loop);
