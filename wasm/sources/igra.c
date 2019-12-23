@@ -259,9 +259,9 @@ void petlja(char *keydown, char *keyup) {
 python -m http.server 8080
 
 emcc .\wasm\sources\igra.c -o .\wasm\binary\test.js -s WASM=1 -s EXPORTED_FUNCTIONS="['_test','_puts']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']" 
-emcc -I .\wasm\sources .\wasm\sources\igra.c .\wasm\sources\engine.c -o .\wasm\binary\test.js -s WASM=1 -s EXPORTED_FUNCTIONS="['_petlja','_init','_puts']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']"
+emcc -I .\wasm\sources .\wasm\sources\igra.c .\wasm\sources\engine.c -o .\wasm\binary\wasm.js -s WASM=1 -s EXPORTED_FUNCTIONS="['_petlja','_init','_puts','_main']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']"
 
-emcc -I ./wasm/sources ./wasm/sources/igra.c ./wasm/sources/engine.c -o ./wasm/binary/test.js -s WASM=1 -s EXPORTED_FUNCTIONS="['_petlja','_init','_puts']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']" 
+emcc -I ./wasm/sources ./wasm/sources/igra.c ./wasm/sources/engine.c -o ./wasm/binary/wasm.js -s WASM=1 -s EXPORTED_FUNCTIONS="['_petlja','_init','_puts','_main']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']" 
 */
 
 // gore-'&'
