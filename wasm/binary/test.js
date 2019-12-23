@@ -641,8 +641,8 @@ var wasmMemory;
 // In the wasm backend, we polyfill the WebAssembly object,
 // so this creates a (non-native-wasm) table for us.
 var wasmTable = new WebAssembly.Table({
-  'initial': 4,
-  'maximum': 4 + 0,
+  'initial': 6,
+  'maximum': 6 + 0,
   'element': 'anyfunc'
 });
 
@@ -1246,11 +1246,11 @@ function updateGlobalBufferAndViews(buf) {
 }
 
 var STATIC_BASE = 1024,
-    STACK_BASE = 5246224,
+    STACK_BASE = 5247248,
     STACKTOP = STACK_BASE,
-    STACK_MAX = 3344,
-    DYNAMIC_BASE = 5246224,
-    DYNAMICTOP_PTR = 3184;
+    STACK_MAX = 4368,
+    DYNAMIC_BASE = 5247248,
+    DYNAMICTOP_PTR = 4208;
 
 assert(STACK_BASE % 16 === 0, 'stack must start aligned');
 assert(DYNAMIC_BASE % 16 === 0, 'heap must start aligned');
@@ -1779,9 +1779,10 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  1024: function($0, $1, $2, $3, $4) {let ctx = gameCanvas.getContext("2d"); ctx.beginPath(); ctx.fillStyle = colors[$4]; ctx.rect($0, $1, $2, $3); ctx.fill();},  
- 1150: function($0, $1, $2, $3) {let ctx = gameCanvas.getContext("2d"); ctx.beginPath(); ctx.fillStyle = colors[$3]; ctx.arc($0, $1, $2, 0, 2 * Math.PI); ctx.fill();},  
- 1287: function() {const ctx = gameCanvas.getContext("2d"); ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);}
+  1024: function($0, $1, $2, $3) {let ctx = gameCanvas.getContext("2d"); ctx.font = "50px Arial"; ctx.fillStyle = colors[$3]; ctx.textAlign = "center"; ctx.fillText($2, $0, $1);},  
+ 1207: function($0, $1, $2, $3, $4) {let ctx = gameCanvas.getContext("2d"); ctx.beginPath(); ctx.fillStyle = colors[$4]; ctx.rect($0, $1, $2, $3); ctx.fill();},  
+ 1333: function($0, $1, $2, $3) {let ctx = gameCanvas.getContext("2d"); ctx.beginPath(); ctx.fillStyle = colors[$3]; ctx.arc($0, $1, $2, 0, 2 * Math.PI); ctx.fill();},  
+ 1470: function() {const ctx = gameCanvas.getContext("2d"); ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);}
 };
 
 // Avoid creating a new array
@@ -1813,7 +1814,7 @@ function _emscripten_asm_const_iii(code, sigPtr, argbuf) {
 
 
 
-// STATICTOP = STATIC_BASE + 2320;
+// STATICTOP = STATIC_BASE + 3344;
 /* global initializers */  __ATINIT__.push({ func: function() { ___wasm_call_ctors() } });
 
 
@@ -1874,7 +1875,7 @@ function _emscripten_asm_const_iii(code, sigPtr, argbuf) {
     }
 
   function _emscripten_get_sbrk_ptr() {
-      return 3184;
+      return 4208;
     }
 
   function _emscripten_memcpy_big(dest, src, num) {
@@ -2288,6 +2289,20 @@ asm["dynCall_jiji"] = function() {
   return real_dynCall_jiji.apply(null, arguments);
 };
 
+var real_dynCall_iidiiii = asm["dynCall_iidiiii"];
+asm["dynCall_iidiiii"] = function() {
+  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+  return real_dynCall_iidiiii.apply(null, arguments);
+};
+
+var real_dynCall_vii = asm["dynCall_vii"];
+asm["dynCall_vii"] = function() {
+  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+  return real_dynCall_vii.apply(null, arguments);
+};
+
 Module["asm"] = asm;
 var ___wasm_call_ctors = Module["___wasm_call_ctors"] = function() {
   assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
@@ -2389,6 +2404,18 @@ var dynCall_jiji = Module["dynCall_jiji"] = function() {
   assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
   assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
   return Module["asm"]["dynCall_jiji"].apply(null, arguments)
+};
+
+var dynCall_iidiiii = Module["dynCall_iidiiii"] = function() {
+  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+  return Module["asm"]["dynCall_iidiiii"].apply(null, arguments)
+};
+
+var dynCall_vii = Module["dynCall_vii"] = function() {
+  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+  return Module["asm"]["dynCall_vii"].apply(null, arguments)
 };
 
 

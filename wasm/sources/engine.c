@@ -4,31 +4,31 @@
 #endif
 
 void rect(int x, int y, int sir, int vis, int ci) {
-    EM_ASM_INT({
+    EM_ASM({
         //console.log($0, $1, $2, $3, $4);
         let ctx = gameCanvas.getContext("2d");
         ctx.beginPath();
         ctx.fillStyle = colors[$4];
         ctx.rect($0, $1, $2, $3);
         ctx.fill();
-    },x, y, sir, vis, ci);
+    }, x, y, sir, vis, ci);
 }
 
 void circ(int x, int y, int r, int ci) {
-    EM_ASM_INT({
+    EM_ASM({
         let ctx = gameCanvas.getContext("2d");
         ctx.beginPath();
         ctx.fillStyle = colors[$3];
         ctx.arc($0, $1, $2, 0, 2 * Math.PI);
         ctx.fill();
-    },x, y, r, ci);
+    }, x, y, r, ci);
 }
 
 void slika(int x, int y, int sir, int vis, int ind) {
-    EM_ASM_INT({
+    EM_ASM({
         let ctx = gameCanvas.getContext("2d");
         ctx.drawImage(assets[$4], $0, $1, $2, $3);
-    },x, y, sir, vis, ind);
+    }, x, y, sir, vis, ind);
 }
 
 void cls() {

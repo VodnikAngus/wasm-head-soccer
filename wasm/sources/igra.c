@@ -1,6 +1,4 @@
-#ifdef _STDIO_H
 #include <stdio.h>
-#endif
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
@@ -14,8 +12,10 @@
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 #define IZMEDJU(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
+#define MAXPOENI 7
 
 int x, y, rnd, poeni1, poeni2;
+void init(int rand);
 
 typedef struct {
     int x;
@@ -62,9 +62,75 @@ void lpomeri(lopta *l) {
     l->x += l->vx;
 }
 
-void init(int rand) {
+void pnum(int x, int y, int n, int ci) {
+    EM_ASM({
+        let ctx = gameCanvas.getContext("2d");
+        ctx.font = "50px Arial";
+        ctx.fillStyle = colors[$3];
+        ctx.textAlign = "center";
+        ctx.fillText($2, $0, $1);
+    },
+           x, y, n, ci);
+}
 
-    poeni1=poeni2=0;
+void reset(){
+    rnd++;
+
+    l.x = SIRINA / 2;
+    l.y = VISINA / 2;
+    l.r = i1.sir / 2;
+
+    switch (rnd % 4) {
+    case 0:
+        l.vx = LKORAK;
+        l.vy = LKORAK;
+        break;
+    case 1:
+        l.vx = -LKORAK;
+        l.vy = LKORAK;
+        break;
+    case 2:
+        l.vx = LKORAK;
+        l.vy = -LKORAK;
+        break;
+    case 3:
+        l.vx = -LKORAK;
+        l.vy = -LKORAK;
+        break;
+
+    default:
+        break;
+    }
+}
+
+void poen(int i) {
+    switch (i) {
+    case 0:
+        poeni2 += 1;
+        reset();
+        if (poeni2 >= MAXPOENI) {
+            printf("pobedio je drugi\n");
+            init(++rnd);
+        }
+        break;
+
+    case 1:
+        poeni1 += 1;
+        reset();
+        if (poeni1 >= MAXPOENI) {
+            printf("pobedio je prvi\n");
+            init(++rnd);
+        }
+        break;
+
+    default:
+        break;
+    }
+}
+
+//INICIJALIZACIJA IGRICE
+void init(int rand) {
+    poeni1 = poeni2 = 0;
 
     rnd = rand;
     i1.v = i2.v = 0;
@@ -107,6 +173,15 @@ void petlja(char *keydown, char *keyup) {
     pomeri(&i2);
 
     lpomeri(&l);
+
+    if (l.x < 0)
+        poen(0);
+
+    if (l.x > SIRINA)
+        poen(1);
+
+    pnum(SIRINA / 4, VISINA / 10, poeni1, 0);
+    pnum(SIRINA * 3 / 4, VISINA / 10, poeni2, 0);
 
     ctrprv(i1);
     ctrprv(i2);
