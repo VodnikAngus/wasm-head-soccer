@@ -115,7 +115,7 @@ void poen(int i) {
         reset();
         if (poeni2 >= MAXPOENI) {
             printf("pobedio je drugi\n");
-            init(++rnd,brigraca);
+            init(++rnd, brigraca);
         }
         break;
 
@@ -172,6 +172,13 @@ void init(int rand, int nigr) {
     default:
         break;
     }
+}
+
+int main() {
+    EM_ASM({
+        load();
+    });
+    return 0;
 }
 
 void petlja(char *keydown, char *keyup) {

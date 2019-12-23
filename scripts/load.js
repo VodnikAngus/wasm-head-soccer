@@ -6,7 +6,7 @@ var assets = [];
 var inicijalizacija;
 var petlja;
 
-function loaded() {
+function load() {
   inicijalizacija=Module.cwrap("init", null,["number"]);
   petlja=Module.cwrap("petlja", null, ["number","number"]);
   gameDiv = document.getElementById("gameDiv");

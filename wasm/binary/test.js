@@ -1246,11 +1246,11 @@ function updateGlobalBufferAndViews(buf) {
 }
 
 var STATIC_BASE = 1024,
-    STACK_BASE = 5247264,
+    STACK_BASE = 5247280,
     STACKTOP = STACK_BASE,
-    STACK_MAX = 4384,
-    DYNAMIC_BASE = 5247264,
-    DYNAMICTOP_PTR = 4224;
+    STACK_MAX = 4400,
+    DYNAMIC_BASE = 5247280,
+    DYNAMICTOP_PTR = 4240;
 
 assert(STACK_BASE % 16 === 0, 'stack must start aligned');
 assert(DYNAMIC_BASE % 16 === 0, 'heap must start aligned');
@@ -1780,9 +1780,10 @@ var tempI64;
 
 var ASM_CONSTS = {
   1024: function($0, $1, $2, $3) {let ctx = gameCanvas.getContext("2d"); ctx.font = "50px Arial"; ctx.fillStyle = colors[$3]; ctx.textAlign = "center"; ctx.fillText($2, $0, $1);},  
- 1207: function($0, $1, $2, $3, $4) {let ctx = gameCanvas.getContext("2d"); ctx.beginPath(); ctx.fillStyle = colors[$4]; ctx.rect($0, $1, $2, $3); ctx.fill();},  
- 1333: function($0, $1, $2, $3) {let ctx = gameCanvas.getContext("2d"); ctx.beginPath(); ctx.fillStyle = colors[$3]; ctx.arc($0, $1, $2, 0, 2 * Math.PI); ctx.fill();},  
- 1470: function() {const ctx = gameCanvas.getContext("2d"); ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);}
+ 1207: function() {load();},  
+ 1219: function($0, $1, $2, $3, $4) {let ctx = gameCanvas.getContext("2d"); ctx.beginPath(); ctx.fillStyle = colors[$4]; ctx.rect($0, $1, $2, $3); ctx.fill();},  
+ 1345: function($0, $1, $2, $3) {let ctx = gameCanvas.getContext("2d"); ctx.beginPath(); ctx.fillStyle = colors[$3]; ctx.arc($0, $1, $2, 0, 2 * Math.PI); ctx.fill();},  
+ 1482: function() {const ctx = gameCanvas.getContext("2d"); ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);}
 };
 
 // Avoid creating a new array
@@ -1814,7 +1815,7 @@ function _emscripten_asm_const_iii(code, sigPtr, argbuf) {
 
 
 
-// STATICTOP = STATIC_BASE + 3360;
+// STATICTOP = STATIC_BASE + 3376;
 /* global initializers */  __ATINIT__.push({ func: function() { ___wasm_call_ctors() } });
 
 
@@ -1875,7 +1876,7 @@ function _emscripten_asm_const_iii(code, sigPtr, argbuf) {
     }
 
   function _emscripten_get_sbrk_ptr() {
-      return 4224;
+      return 4240;
     }
 
   function _emscripten_memcpy_big(dest, src, num) {
@@ -2191,6 +2192,13 @@ asm["petlja"] = function() {
   return real__petlja.apply(null, arguments);
 };
 
+var real__main = asm["main"];
+asm["main"] = function() {
+  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+  return real__main.apply(null, arguments);
+};
+
 var real____errno_location = asm["__errno_location"];
 asm["__errno_location"] = function() {
   assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
@@ -2320,6 +2328,12 @@ var _petlja = Module["_petlja"] = function() {
   assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
   assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
   return Module["asm"]["petlja"].apply(null, arguments)
+};
+
+var _main = Module["_main"] = function() {
+  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+  return Module["asm"]["main"].apply(null, arguments)
 };
 
 var ___errno_location = Module["___errno_location"] = function() {
@@ -2527,6 +2541,55 @@ dependenciesFulfilled = function runCaller() {
   if (!calledRun) dependenciesFulfilled = runCaller; // try this again later, after new deps are fulfilled
 };
 
+function callMain(args) {
+  assert(runDependencies == 0, 'cannot call main when async dependencies remain! (listen on Module["onRuntimeInitialized"])');
+  assert(__ATPRERUN__.length == 0, 'cannot call main when preRun functions remain to be called');
+
+  var entryFunction = Module['_main'];
+
+
+  args = args || [];
+
+  var argc = args.length+1;
+  var argv = stackAlloc((argc + 1) * 4);
+  HEAP32[argv >> 2] = allocateUTF8OnStack(thisProgram);
+  for (var i = 1; i < argc; i++) {
+    HEAP32[(argv >> 2) + i] = allocateUTF8OnStack(args[i - 1]);
+  }
+  HEAP32[(argv >> 2) + argc] = 0;
+
+
+  try {
+
+    Module['___set_stack_limit'](STACK_MAX);
+
+    var ret = entryFunction(argc, argv);
+
+
+    // if we're not running an evented main loop, it's time to exit
+      exit(ret, /* implicit = */ true);
+  }
+  catch(e) {
+    if (e instanceof ExitStatus) {
+      // exit() throws this once it's done to make sure execution
+      // has been stopped completely
+      return;
+    } else if (e == 'unwind') {
+      // running an evented main loop, don't immediately exit
+      noExitRuntime = true;
+      return;
+    } else {
+      var toLog = e;
+      if (e && typeof e === 'object' && e.stack) {
+        toLog = [e, e.stack];
+      }
+      err('exception thrown: ' + toLog);
+      quit_(1, e);
+    }
+  } finally {
+    calledMain = true;
+  }
+}
 
 
 
@@ -2559,7 +2622,7 @@ function run(args) {
 
     if (Module['onRuntimeInitialized']) Module['onRuntimeInitialized']();
 
-    assert(!Module['_main'], 'compiled without a main, but one is present. if you added it from JS, use Module["onRuntimeInitialized"]');
+    if (shouldRunNow) callMain(args);
 
     postRun();
   }
@@ -2645,6 +2708,11 @@ if (Module['preInit']) {
     Module['preInit'].pop()();
   }
 }
+
+// shouldRunNow refers to calling main(), not run().
+var shouldRunNow = true;
+
+if (Module['noInitialRun']) shouldRunNow = false;
 
 
   noExitRuntime = true;
