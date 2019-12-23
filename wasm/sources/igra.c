@@ -7,7 +7,7 @@
 #define SIRINA 1920
 #define VISINA 1080
 
-#define KORAK 10
+#define KORAK 9
 #define LKORAK 10
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
@@ -49,6 +49,11 @@ void pomeri(pravougaonik *p) {
     //p->y = max(min(p->y + p->v, VISINA - p->vis), 0);
 }
 
+void automatskipomeri(pravougaonik *p) {
+    p->y = IZMEDJU(((p->y + p->vis / 2 - l.y) > 0 ? p->y - KORAK : p->y + KORAK), 0, VISINA - p->vis);
+    //p->y = max(min(p->y + p->v, VISINA - p->vis), 0);
+}
+
 void lpomeri(lopta *l) {
     if (l->y + l->vy + l->r > VISINA || l->y + l->vy - l->r < 0)
         l->vy = -l->vy;
@@ -73,7 +78,7 @@ void pnum(int x, int y, int n, int ci) {
            x, y, n, ci);
 }
 
-void reset(){
+void reset() {
     rnd++;
 
     l.x = SIRINA / 2;
@@ -170,7 +175,7 @@ void init(int rand) {
 void petlja(char *keydown, char *keyup) {
     cls();
     pomeri(&i1);
-    pomeri(&i2);
+    automatskipomeri(&i2);
 
     lpomeri(&l);
 
