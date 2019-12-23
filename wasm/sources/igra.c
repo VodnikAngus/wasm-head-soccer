@@ -45,12 +45,12 @@ pravougaonik i1, i2;
 lopta l;
 
 void pomeri(pravougaonik *p) {
-    p->y = IZMEDJU(p->y + p->v * 16 / delta, 0, VISINA - p->vis);
+    p->y = IZMEDJU(p->y + p->v * delta / 16, 0, VISINA - p->vis);
     //p->y = max(min(p->y + p->v, VISINA - p->vis), 0);
 }
 
 void automatskipomeri(pravougaonik *p) {
-    p->y = IZMEDJU(((p->y + p->vis / 2 - l.y) > 0 ? p->y - KORAK * 16 / delta : p->y + KORAK * 16 / delta), 0, VISINA - p->vis);
+    p->y = IZMEDJU(((p->y + p->vis / 2 - l.y) > 0 ? p->y - KORAK * delta / 16 : p->y + KORAK * delta / 16), 0, VISINA - p->vis);
     //p->y = max(min(p->y + p->v, VISINA - p->vis), 0);
 }
 
@@ -63,8 +63,8 @@ void lpomeri(lopta *l) {
     if ((l->x + l->vx + l->r > i2.x && l->x + l->vx + l->r < i2.x + i2.sir && l->y > i2.y && l->y < i2.y + i2.vis))
         l->vx = -l->vx;
 
-    l->y += l->vy * 16 / delta;
-    l->x += l->vx * 16 / delta;
+    l->y += l->vy * delta / 16;
+    l->x += l->vx * delta / 16;
 }
 
 void pnum(int x, int y, int n, int ci) {
