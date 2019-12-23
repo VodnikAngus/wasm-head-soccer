@@ -9,11 +9,11 @@
 
 #define KORAK 10
 #define LKORAK 5
-#define MIN(a,b) (((a) < (b)) ? (a) : (b))
-#define MAX(a,b) (((a) > (b)) ? (a) : (b))
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
 #define IZMEDJU(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 
-int x, y;
+int x, y, rnd, poeni1, poeni2;
 
 typedef struct {
     int x;
@@ -47,35 +47,24 @@ void pomeri(pravougaonik *p) {
     //p->y = max(min(p->y + p->v, VISINA - p->vis), 0);
 }
 
-void lpomeri(lopta *l, pravougaonik i1, pravougaonik i2){
-    if ((l->y + l->vy - l->r < 0) || (l->y + l->vy + l->r > VISINA)) {
-        l->vy *= -1;
-    }
+void lpomeri(lopta *l) {
+    if (l->y + l->vy + l->r > VISINA || l->y + l->vy - l->r < 0)
+        l->vy = -l->vy;
 
-    if (l->x + l->vx - l->r <= i1.x + i1.sir) {
-        if(l->y >= i1.y && l->y <= i1.y + i1.vis) {
-            l->vx *= -1;
-        }
-        else {
-            printf("Igrac 1 je izgubio!");
-        }
-        
-    }
+    if ((l->x + l->vx - l->r < i1.x + i1.sir && l->x + l->vx - l->r > i1.x && l->y > i1.y && l->y < i1.y + i1.vis))
+        l->vx = -l->vx;
+    if ((l->x + l->vx + l->r > i2.x && l->x + l->vx + l->r < i2.x + i2.sir && l->y > i2.y && l->y < i2.y + i2.vis))
+        l->vx = -l->vx;
 
-    if ((l->x + l->vx + l->r >= i2.x)) {
-        if(l->y >= i2.y && l->y <= i2.y + i2.vis) {
-            l->vx *= -1;
-        }
-        else {
-            printf("Igrac 2 je izgubio!");
-        }
-    }
-    
-    l->x+=l->vx;
-    l->y+=l->vy;
+    l->y += l->vy;
+    l->x += l->vx;
 }
 
 void init(int rand) {
+
+    poeni1=poeni2=0;
+
+    rnd = rand;
     i1.v = i2.v = 0;
     i1.sir = i2.sir = SIRINA / 100;
     i1.vis = i2.vis = VISINA / 10;
@@ -86,8 +75,6 @@ void init(int rand) {
     l.x = SIRINA / 2;
     l.y = VISINA / 2;
     l.r = i1.sir / 2;
-
-
 
     switch (rand % 4) {
     case 0:
@@ -117,7 +104,7 @@ void petlja(char *keydown, char *keyup) {
     pomeri(&i1);
     pomeri(&i2);
 
-    lpomeri(&l, i1, i2);
+    lpomeri(&l);
 
     ctrprv(i1);
     ctrprv(i2);
@@ -163,6 +150,9 @@ void petlja(char *keydown, char *keyup) {
             case '(':
                 if (i2.v > 0)
                     i2.v = 0;
+                break;
+            case 'R':
+                init(++rnd);
                 break;
             default:
                 break;

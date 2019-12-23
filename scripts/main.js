@@ -25,7 +25,7 @@ function loop(time) {
     delta=time - lastTime;
   } 
   lastTime = time;
-
+  
   //POCETAK C
   let ptr1 = Module._malloc(keydown.length);
   let ptr2 = Module._malloc(keyup.length);
