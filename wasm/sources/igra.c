@@ -1,4 +1,6 @@
+#ifdef _STDIO_H
 #include <stdio.h>
+#endif
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
