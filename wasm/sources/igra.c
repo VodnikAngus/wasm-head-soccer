@@ -14,8 +14,8 @@
 #define IZMEDJU(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 #define MAXPOENI 7
 
-int x, y, rnd, poeni1, poeni2;
-void init(int rand);
+int x, y, rnd, poeni1, poeni2, brigraca = 1;
+void init(int rand, int nigr);
 
 typedef struct {
     int x;
@@ -115,7 +115,7 @@ void poen(int i) {
         reset();
         if (poeni2 >= MAXPOENI) {
             printf("pobedio je drugi\n");
-            init(++rnd);
+            init(++rnd,brigraca);
         }
         break;
 
@@ -124,7 +124,7 @@ void poen(int i) {
         reset();
         if (poeni1 >= MAXPOENI) {
             printf("pobedio je prvi\n");
-            init(++rnd);
+            init(++rnd, brigraca);
         }
         break;
 
@@ -134,8 +134,10 @@ void poen(int i) {
 }
 
 //INICIJALIZACIJA IGRICE
-void init(int rand) {
+void init(int rand, int nigr) {
     poeni1 = poeni2 = 0;
+
+    brigraca = nigr;
 
     rnd = rand;
     i1.v = i2.v = 0;
@@ -175,7 +177,10 @@ void init(int rand) {
 void petlja(char *keydown, char *keyup) {
     cls();
     pomeri(&i1);
-    automatskipomeri(&i2);
+    if (brigraca == 1)
+        automatskipomeri(&i2);
+    else
+        pomeri(&i2);
 
     lpomeri(&l);
 
@@ -234,7 +239,7 @@ void petlja(char *keydown, char *keyup) {
                     i2.v = 0;
                 break;
             case 'R':
-                init(++rnd);
+                init(++rnd, brigraca);
                 break;
             default:
                 break;

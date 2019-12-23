@@ -5,7 +5,7 @@ var lastTime;
 var delta=0.00001;
 
 function mainLoop() {
-  inicijalizacija(Math.random() * 4);
+  inicijalizacija(Math.random() * 4, 1);
   loop();
 }
 
