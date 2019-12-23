@@ -40,11 +40,11 @@ lopta l;
 
 void init() {
   i1.v = i2.v = 0;
-  i1.y = i2.y = VISINA / 2;
   i1.sir = i2.sir = SIRINA / 100;
   i1.vis = i2.vis = VISINA / 10;
   i1.x = SIRINA / 10 - i1.sir;
   i2.x = SIRINA * 9 / 10 - i2.sir;
+  i1.y = i2.y = (VISINA - i1.vis) / 2;
 
   l.x = SIRINA / 2;
   l.y = VISINA / 2;
