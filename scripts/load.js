@@ -7,7 +7,7 @@ var inicijalizacija;
 var petlja;
 
 function loaded() {
-  inicijalizacija=Module.cwrap("init", null);
+  inicijalizacija=Module.cwrap("init", null,["number"]);
   petlja=Module.cwrap("petlja", null, ["number","number"]);
   gameDiv = document.getElementById("gameDiv");
   gameUI = document.getElementById("gameUI");
