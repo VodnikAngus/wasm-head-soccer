@@ -61,28 +61,7 @@ void petlja(char *keydown, char *keyup) {
   ctrprv(i1);
   ctrprv(i2);
   crtlpt(l);
-  int duz = (int)*keyup;
-  if (duz != 0) {
-    for (int i = 1; i < duz + 1; i++) {
-      switch (keyup[i]) {
-        case 'W':
-          if (i1.v < 0) i1.v = 0;
-          break;
-        case 'S':
-          if (i1.v > 0) i1.v = 0;
-          break;
-        case '&':
-          if (i2.v < 0) i2.v = 0;
-          break;
-        case '(':
-          if (i2.v > 0) i2.v = 0;
-          break;
-        default:
-          break;
-      }
-    }
-  }
-  duz = (int)*keydown;
+  int duz = (int)*keydown;
   if (duz != 0) {
     for (int i = 1; i < duz + 1; i++) {
       switch (keydown[i]) {
@@ -103,12 +82,40 @@ void petlja(char *keydown, char *keyup) {
       }
     }
   }
+  duz = (int)*keyup;
+  if (duz != 0) {
+    for (int i = 1; i < duz + 1; i++) {
+      switch (keyup[i]) {
+        case 'W':
+          if (i1.v < 0) i1.v = 0;
+          break;
+        case 'S':
+          if (i1.v > 0) i1.v = 0;
+          break;
+        case '&':
+          if (i2.v < 0) i2.v = 0;
+          break;
+        case '(':
+          if (i2.v > 0) i2.v = 0;
+          break;
+        default:
+          break;
+      }
+    }
+  }
 }
 /*
-emcc .\wasm\sources\igra.c -o .\wasm\binary\test.js -s WASM=1 -s EXPORTED_FUNCTIONS="['_test','_puts']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']"
-emcc -I .\wasm\sources .\wasm\sources\igra.c .\wasm\sources\engine.c -o .\wasm\binary\test.js -s WASM=1 -s EXPORTED_FUNCTIONS="['_petlja','_init','_puts']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']"
+emcc .\wasm\sources\igra.c -o .\wasm\binary\test.js -s WASM=1 -s
+EXPORTED_FUNCTIONS="['_test','_puts']" -s
+EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']" emcc -I .\wasm\sources
+.\wasm\sources\igra.c .\wasm\sources\engine.c -o .\wasm\binary\test.js -s WASM=1
+-s EXPORTED_FUNCTIONS="['_petlja','_init','_puts']" -s
+EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']"
 
-emcc -I ./wasm/sources ./wasm/sources/igra.c ./wasm/sources/engine.c -o ./wasm/binary/test.js -s WASM=1 -s EXPORTED_FUNCTIONS="['_petlja','_init','_puts']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']"
+emcc -I ./wasm/sources ./wasm/sources/igra.c ./wasm/sources/engine.c -o
+./wasm/binary/test.js -s WASM=1 -s
+EXPORTED_FUNCTIONS="['_petlja','_init','_puts']" -s
+EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']"
 */
 
 // gore-'&'
