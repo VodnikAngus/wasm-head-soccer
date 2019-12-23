@@ -14,8 +14,8 @@
 #define IZMEDJU(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 #define MAXPOENI 7
 
-int x, y, rnd, poeni1, poeni2, brigraca = 1;
-void init(int rand, int nigr);
+int x, y, rnd, poeni1, poeni2, brigraca = 1, delta;
+void init(int rand, int nigr, int delta);
 
 typedef struct {
     int x;
@@ -45,12 +45,12 @@ pravougaonik i1, i2;
 lopta l;
 
 void pomeri(pravougaonik *p) {
-    p->y = IZMEDJU(p->y + p->v, 0, VISINA - p->vis);
+    p->y = IZMEDJU(p->y + p->v * 16 / delta, 0, VISINA - p->vis);
     //p->y = max(min(p->y + p->v, VISINA - p->vis), 0);
 }
 
 void automatskipomeri(pravougaonik *p) {
-    p->y = IZMEDJU(((p->y + p->vis / 2 - l.y) > 0 ? p->y - KORAK : p->y + KORAK), 0, VISINA - p->vis);
+    p->y = IZMEDJU(((p->y + p->vis / 2 - l.y) > 0 ? p->y - KORAK * 16 / delta : p->y + KORAK * 16 / delta), 0, VISINA - p->vis);
     //p->y = max(min(p->y + p->v, VISINA - p->vis), 0);
 }
 
@@ -63,8 +63,8 @@ void lpomeri(lopta *l) {
     if ((l->x + l->vx + l->r > i2.x && l->x + l->vx + l->r < i2.x + i2.sir && l->y > i2.y && l->y < i2.y + i2.vis))
         l->vx = -l->vx;
 
-    l->y += l->vy;
-    l->x += l->vx;
+    l->y += l->vy * 16 / delta;
+    l->x += l->vx * 16 / delta;
 }
 
 void pnum(int x, int y, int n, int ci) {
@@ -115,7 +115,7 @@ void poen(int i) {
         reset();
         if (poeni2 >= MAXPOENI) {
             printf("pobedio je drugi\n");
-            init(++rnd, brigraca);
+            init(++rnd, brigraca, delta);
         }
         break;
 
@@ -124,7 +124,7 @@ void poen(int i) {
         reset();
         if (poeni1 >= MAXPOENI) {
             printf("pobedio je prvi\n");
-            init(++rnd, brigraca);
+            init(++rnd, brigraca, delta);
         }
         break;
 
@@ -134,8 +134,9 @@ void poen(int i) {
 }
 
 //INICIJALIZACIJA IGRICE
-void init(int rand, int nigr) {
+void init(int rand, int nigr, int dlt) {
     poeni1 = poeni2 = 0;
+    delta = dlt;
 
     brigraca = nigr;
 
@@ -181,7 +182,8 @@ int main() {
     return 0;
 }
 
-void petlja(char *keydown, char *keyup) {
+void petlja(char *keydown, char *keyup, int dlt) {
+    delta = dlt;
     cls();
     pomeri(&i1);
     if (brigraca == 1)
@@ -246,7 +248,7 @@ void petlja(char *keydown, char *keyup) {
                     i2.v = 0;
                 break;
             case 'R':
-                init(++rnd, brigraca);
+                init(++rnd, brigraca, delta);
                 break;
             default:
                 break;

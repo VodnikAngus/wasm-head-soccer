@@ -2,10 +2,10 @@ var i = 0;
 var keydown = [0];
 var keyup = [0];
 var lastTime;
-var delta=0.00001;
+var delta=16;
 
 function mainLoop() {
-  inicijalizacija(Math.random() * 4, 1);
+  inicijalizacija(Math.random() * 4, 1,16);
   loop();
 }
 
@@ -32,7 +32,7 @@ function loop(time) {
   Module.HEAPU8.set(keydown,ptr1);
   Module.HEAPU8.set(keyup,ptr2);
   //pmemn(ptr1,keydown.length);
-  petlja(ptr1,ptr2);
+  petlja(ptr1,ptr2,delta);
   Module._free(ptr1);
   Module._free(ptr2);
   //KRAJ C
