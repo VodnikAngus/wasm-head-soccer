@@ -8,7 +8,7 @@
 #define VISINA 1080
 
 #define KORAK 10
-#define LKORAK 5
+#define LKORAK 10
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 #define IZMEDJU(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
