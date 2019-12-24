@@ -33,7 +33,7 @@ void slika(int x, int y, int sir, int vis, int ind) {
 
 void cls() {
     EM_ASM({
-        const ctx = gameCanvas.getContext("2d");
+        let ctx = gameCanvas.getContext("2d");
         ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
     });
 }
