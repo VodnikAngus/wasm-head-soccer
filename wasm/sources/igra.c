@@ -14,7 +14,7 @@
 #define IZMEDJU(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 #define MAXPOENI 7
 
-int x, y, rnd, poeni1, poeni2, brigraca = 1, delta;
+int x, y, rnd, poeni1, poeni2, brigraca = 1, delta, dodiry = -1;
 void init(int rand, int nigr, int delta);
 
 typedef struct {
@@ -58,9 +58,9 @@ void lpomeri(lopta *l) {
     if (l->y + l->vy + l->r > VISINA || l->y + l->vy - l->r < 0)
         l->vy = -l->vy;
 
-    if ((l->x + l->vx - l->r < i1.x + i1.sir && l->x + l->vx - l->r > i1.x && l->y > i1.y && l->y < i1.y + i1.vis))
+    if ((l->x + l->vx - l->r < i1.x + i1.sir && l->x + l->vx - l->r > i1.x && l->y > i1.y - i1.v * delta / 16 && l->y < i1.y + i1.vis - i1.v * delta / 16))
         l->vx = -l->vx;
-    if ((l->x + l->vx + l->r > i2.x && l->x + l->vx + l->r < i2.x + i2.sir && l->y > i2.y && l->y < i2.y + i2.vis))
+    if ((l->x + l->vx + l->r > i2.x && l->x + l->vx + l->r < i2.x + i2.sir && l->y > i2.y - i2.v * delta / 16 && l->y < i2.y + i2.vis - i2.v * delta / 16))
         l->vx = -l->vx;
 
     l->y += l->vy * delta / 16;
@@ -114,7 +114,9 @@ void poen(int i) {
         poeni2 += 1;
         reset();
         if (poeni2 >= MAXPOENI) {
-            printf("pobedio je drugi\n");
+            EM_ASM({
+                alert("pobedio je drugi");
+            });
             init(++rnd, brigraca, delta);
         }
         break;
@@ -123,7 +125,7 @@ void poen(int i) {
         poeni1 += 1;
         reset();
         if (poeni1 >= MAXPOENI) {
-            printf("pobedio je prvi\n");
+            EM_ASM({alert("pobedio je prvi")});
             init(++rnd, brigraca, delta);
         }
         break;
@@ -182,7 +184,7 @@ int main() {
     return 0;
 }
 
-void petlja(char *keydown, char *keyup, int dlt) {
+void petlja(char *keydown, char *keyup, int dy, int dlt) {
     delta = dlt;
     cls();
     pomeri(&i1);
@@ -207,6 +209,13 @@ void petlja(char *keydown, char *keyup, int dlt) {
     crtlpt(l);
     int duz = (int)*keydown;
 
+    if (dy != -1) {
+        i1.v = dodiry - i1.y > 0 ? KORAK : -KORAK;
+    } else if (dy == -1 && dodiry != -1) {
+        i1.v = 0;
+    }
+
+    dodiry = dy;
     if (duz != 0) {
         for (int i = 1; i < duz + 1; i++) {
             switch (keydown[i]) {

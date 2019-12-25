@@ -3,9 +3,15 @@ var keydown = [0];
 var keyup = [0];
 var lastTime;
 var delta=16;
+var brigraca = 1;
+var dodirY=-1;
+
+function brigr(brigraca){
+  inicijalizacija(Math.random() * 4, brigraca, 16);
+}
 
 function mainLoop() {
-  inicijalizacija(Math.random() * 4, 1,16);
+  inicijalizacija(Math.random() * 4, brigraca, 16);
   loop();
 }
 
@@ -32,7 +38,7 @@ function loop(time) {
   Module.HEAPU8.set(keydown,ptr1);
   Module.HEAPU8.set(keyup,ptr2);
   //pmemn(ptr1,keydown.length);
-  petlja(ptr1,ptr2,delta);
+  petlja(ptr1,ptr2,dodirY,delta);
   Module._free(ptr1);
   Module._free(ptr2);
   //KRAJ C
@@ -51,3 +57,32 @@ document.addEventListener("keyup", event => {
   keyup[0]++;
   keyup.push(event.keyCode);
 });
+
+function nadodir(event) {
+  if (event.touches.length == 1) {
+    dodirY =
+      (event.touches[0].pageY - event.targetTouches[0].target.getBoundingClientRect().top) /
+      scaleFactor(gameDiv.offsetWidth, gameDiv.offsetHeight);
+  } else {
+    dodirY = -1;
+  }
+}
+
+function napomeraj(event) {
+  if (event.touches.length == 1) {
+    let dodirYTest =
+      (event.touches[0].pageY - event.targetTouches[0].target.getBoundingClientRect().top) /
+      scaleFactor(gameDiv.offsetWidth, gameDiv.offsetHeight);
+    if (dodirYTest <= 1080) {
+      dodirY = dodirYTest;
+    } else {
+      dodirY = -1;
+    }
+  } else {
+    dodirY = -1;
+  }
+}
+
+function nadodirstop() {
+  dodirY = -1;
+}
