@@ -9,9 +9,11 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  position: fixed;
-  width: 100%;
-  height: 100%;
+  height: 100vh;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   background-color: #141414;
   -webkit-box-align: center;
       -ms-flex-align: center;
@@ -22,9 +24,11 @@ body {
 }
 
 #gameDiv {
+  overflow: hidden;
   background-color: #141414;
   width: 95%;
   height: 95%;
+  position: relative;
 }
 
 #gameDiv:-webkit-full-screen {
@@ -96,5 +100,27 @@ body {
 
 #assets {
   display: none;
+}
+
+#prozor {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  z-index: 100;
+}
+
+#prozor span {
+  padding: 20px;
+  background-color: white;
 }
 /*# sourceMappingURL=main.css.map */

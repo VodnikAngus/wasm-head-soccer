@@ -6,6 +6,9 @@ var assets = [];
 var inicijalizacija;
 var petlja;
 
+const SIRINA=1920;
+const VISINA=1080;
+
 function load() {
   inicijalizacija = Module.cwrap("init", null, ["number", "number", "number"]);
   petlja = Module.cwrap("petlja", null, ["number", "number", "number", "number"]);
@@ -14,10 +17,10 @@ function load() {
   fullScreenToggle = document.getElementById("fullScreenToggle");
 
   gameCanvas = document.createElement("canvas");
-  gameCanvas.width = 1920;
-  gameCanvas.height = 1080;
-  gameUI.style.width = `1920px`;
-  gameUI.style.height = `1080px`;
+  gameCanvas.width = SIRINA;
+  gameCanvas.height = VISINA;
+  gameUI.style.width = `${SIRINA}px`;
+  gameUI.style.height = `${VISINA}px`;
   resized();
   gameDiv.appendChild(gameCanvas);
   assets = document.getElementById("assets").children;

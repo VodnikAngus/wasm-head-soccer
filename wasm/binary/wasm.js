@@ -1246,11 +1246,11 @@ function updateGlobalBufferAndViews(buf) {
 }
 
 var STATIC_BASE = 1024,
-    STACK_BASE = 5246448,
+    STACK_BASE = 5246800,
     STACKTOP = STACK_BASE,
-    STACK_MAX = 3568,
-    DYNAMIC_BASE = 5246448,
-    DYNAMICTOP_PTR = 3408;
+    STACK_MAX = 3920,
+    DYNAMIC_BASE = 5246800,
+    DYNAMICTOP_PTR = 3760;
 
 assert(STACK_BASE % 16 === 0, 'stack must start aligned');
 assert(DYNAMIC_BASE % 16 === 0, 'heap must start aligned');
@@ -1780,12 +1780,11 @@ var tempI64;
 
 var ASM_CONSTS = {
   1024: function($0, $1, $2, $3) {let ctx = gameCanvas.getContext("2d"); ctx.font = "50px Arial"; ctx.fillStyle = colors[$3]; ctx.textAlign = "center"; ctx.fillText($2, $0, $1);},  
- 1172: function() {alert("pobedio je drugi");},  
- 1203: function() {alert("pobedio je prvi")},  
- 1230: function() {load();},  
- 1242: function($0, $1, $2, $3, $4) {let ctx = gameCanvas.getContext("2d"); ctx.beginPath(); ctx.fillStyle = colors[$4]; ctx.rect($0, $1, $2, $3); ctx.fill();},  
- 1368: function($0, $1, $2, $3) {let ctx = gameCanvas.getContext("2d"); ctx.beginPath(); ctx.fillStyle = colors[$3]; ctx.arc($0, $1, $2, 0, 2 * Math.PI); ctx.fill();},  
- 1505: function() {let ctx = gameCanvas.getContext("2d"); ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);}
+ 1205: function() {load();},  
+ 1217: function($0, $1, $2, $3, $4) {let ctx = gameCanvas.getContext("2d"); ctx.beginPath(); ctx.fillStyle = colors[$4]; ctx.rect($0, $1, $2, $3); ctx.fill();},  
+ 1343: function($0, $1, $2, $3) {let ctx = gameCanvas.getContext("2d"); ctx.beginPath(); ctx.fillStyle = colors[$3]; ctx.arc($0, $1, $2, 0, 2 * Math.PI); ctx.fill();},  
+ 1480: function() {let ctx = gameCanvas.getContext("2d"); ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);},  
+ 1581: function($0) {let c; let poruka = ""; for (let i = $0; Module.HEAP8[i] != 0; i++) { c = Module.HEAP8[i]; poruka += String.fromCharCode(c); } let prozor = document.createElement("div"); prozor.innerHTML = `<span>${poruka}</ span>`; prozor.id = "prozor"; prozor.onclick = () => { document.body.removeChild(prozor); delete prozor; }; document.body.appendChild(prozor);}
 };
 
 // Avoid creating a new array
@@ -1817,7 +1816,7 @@ function _emscripten_asm_const_iii(code, sigPtr, argbuf) {
 
 
 
-// STATICTOP = STATIC_BASE + 2544;
+// STATICTOP = STATIC_BASE + 2896;
 /* global initializers */  __ATINIT__.push({ func: function() { ___wasm_call_ctors() } });
 
 
@@ -1878,7 +1877,7 @@ function _emscripten_asm_const_iii(code, sigPtr, argbuf) {
     }
 
   function _emscripten_get_sbrk_ptr() {
-      return 3408;
+      return 3760;
     }
 
   function _emscripten_memcpy_big(dest, src, num) {

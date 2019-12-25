@@ -14,7 +14,7 @@
 #define IZMEDJU(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 #define MAXPOENI 7
 
-int x, y, rnd, poeni1, poeni2, brigraca = 1, delta, dodiry = -1;
+int x, y, rnd, poeni1, poeni2, brigraca = 1, delta, dodiry = -1, pauza = 0;
 void init(int rand, int nigr, int delta);
 
 typedef struct {
@@ -112,21 +112,27 @@ void poen(int i) {
     switch (i) {
     case 0:
         poeni2 += 1;
-        reset();
         if (poeni2 >= MAXPOENI) {
-            EM_ASM({
-                alert("pobedio je drugi");
-            });
             init(++rnd, brigraca, delta);
+            prozor("pobedio je drugi");
+            pauza = 1;
+            l.x = SIRINA / 2;
+            l.y = VISINA / 2;
+        } else {
+            reset();
         }
         break;
 
     case 1:
         poeni1 += 1;
-        reset();
         if (poeni1 >= MAXPOENI) {
-            EM_ASM({alert("pobedio je prvi")});
             init(++rnd, brigraca, delta);
+            prozor("pobedio je prvi");
+            pauza = 1;
+            l.x = SIRINA / 2;
+            l.y = VISINA / 2;
+        } else {
+            reset();
         }
         break;
 
@@ -186,28 +192,32 @@ int main() {
 }
 
 void petlja(char *keydown, char *keyup, int dy, int dlt) {
-    delta = dlt;
-    cls();
-    pomeri(&i1);
-    if (brigraca == 1)
-        automatskipomeri(&i2);
-    else
-        pomeri(&i2);
+    if (!pauza) {
+        delta = dlt;
+        cls();
+        pomeri(&i1);
+        if (brigraca == 1)
+            automatskipomeri(&i2);
+        else
+            pomeri(&i2);
 
-    lpomeri(&l);
+        lpomeri(&l);
 
-    if (l.x < 0)
-        poen(0);
+        if (l.x < 0) {
+            poen(0);
+        }
 
-    if (l.x > SIRINA)
-        poen(1);
+        if (l.x > SIRINA) {
+            poen(1);
+        }
 
-    pnum(SIRINA / 4, VISINA / 10, poeni1, 0);
-    pnum(SIRINA * 3 / 4, VISINA / 10, poeni2, 0);
+        pnum(SIRINA / 4, VISINA / 10, poeni1, 0);
+        pnum(SIRINA * 3 / 4, VISINA / 10, poeni2, 0);
 
-    ctrprv(i1);
-    ctrprv(i2);
-    crtlpt(l);
+        ctrprv(i1);
+        ctrprv(i2);
+        crtlpt(l);
+    }
     int duz = (int)*keydown;
 
     if (dy != -1) {
@@ -259,6 +269,9 @@ void petlja(char *keydown, char *keyup, int dy, int dlt) {
                 break;
             case 'R':
                 init(++rnd, brigraca, delta);
+                break;
+            case 'P':
+                pauza = !pauza;
                 break;
             default:
                 break;
