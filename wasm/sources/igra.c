@@ -137,7 +137,6 @@ void poen(int i) {
 
 //INICIJALIZACIJA IGRICE
 void init(int rand, int nigr, int dlt) {
-    poeni1 = poeni2 = 0;
     delta = dlt;
 
     brigraca = nigr;
@@ -153,6 +152,8 @@ void init(int rand, int nigr, int dlt) {
     l.x = SIRINA / 2;
     l.y = VISINA / 2;
     l.r = i1.sir / 2;
+
+    poeni1 = poeni2 = 0;
 
     switch (rand % 4) {
     case 0:

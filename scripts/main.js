@@ -61,7 +61,7 @@ document.addEventListener("keyup", event => {
 function nadodir(event) {
   if (event.touches.length == 1) {
     dodirY =
-      (event.touches[0].pageY - event.targetTouches[0].target.getBoundingClientRect().top) /
+      (event.touches[0].pageY - gameUI.getBoundingClientRect().top) /
       scaleFactor(gameDiv.offsetWidth, gameDiv.offsetHeight);
   } else {
     dodirY = -1;
@@ -71,7 +71,7 @@ function nadodir(event) {
 function napomeraj(event) {
   if (event.touches.length == 1) {
     let dodirYTest =
-      (event.touches[0].pageY - event.targetTouches[0].target.getBoundingClientRect().top) /
+      (event.touches[0].pageY - gameUI.getBoundingClientRect().top) /
       scaleFactor(gameDiv.offsetWidth, gameDiv.offsetHeight);
     if (dodirYTest <= 1080) {
       dodirY = dodirYTest;
