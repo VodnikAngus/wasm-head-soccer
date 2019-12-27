@@ -41,8 +41,8 @@ void crtlpt(lopta l) {
     circ(l.x, l.y, l.r, 0);
 }
 
-void fpauza(){
-    pauza=!pauza;
+void fpauza() {
+    pauza = !pauza;
 }
 
 pravougaonik i1, i2;
@@ -118,7 +118,7 @@ void poen(int i) {
         poeni2 += 1;
         if (poeni2 >= MAXPOENI) {
             init(++rnd, brigraca, delta);
-            prozor("pobedio je drugi",&fpauza);
+            prozor("pobedio je drugi", &fpauza);
             pauza = 1;
             l.x = SIRINA / 2;
             l.y = VISINA / 2;
@@ -131,7 +131,7 @@ void poen(int i) {
         poeni1 += 1;
         if (poeni1 >= MAXPOENI) {
             init(++rnd, brigraca, delta);
-            prozor("pobedio je prvi",&fpauza);
+            prozor("pobedio je prvi", &fpauza);
             pauza = 1;
             l.x = SIRINA / 2;
             l.y = VISINA / 2;
@@ -225,7 +225,7 @@ void petlja(char *keydown, char *keyup, int dy, int dlt) {
     int duz = (int)*keydown;
 
     if (dy != -1) {
-        i1.v = dodiry - i1.y > 0 ? KORAK : -KORAK;
+        i1.v = (dodiry > i1.vis / 2 + i1.y - KORAK * 3 / 2) ? ((dodiry < i1.vis / 2 + i1.y + KORAK * 3 / 2) ? 0 : KORAK) : -KORAK;
     } else if (dy == -1 && dodiry != -1) {
         i1.v = 0;
     }
