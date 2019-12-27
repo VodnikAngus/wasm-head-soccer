@@ -53,12 +53,13 @@ void prozor(char* s,void (*f)()) {
         prozor.innerHTML = `<span>${poruka}</ span>`;
         prozor.id = "prozor";
         prozor.onclick = () => {
+            pozovif($1);
             gameDiv.removeChild(prozor);
             delete prozor;
         };
         gameDiv.appendChild(prozor);
     },
-           s);
+           s, f);
 }
 
 void pozovif(void (*f)()){

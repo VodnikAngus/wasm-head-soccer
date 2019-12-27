@@ -14,7 +14,7 @@
 #define IZMEDJU(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 #define MAXPOENI 7
 
-int x, y, rnd, poeni1, poeni2, brigraca = 1, delta, dodiry = -1, pauza = 0;
+int x, y, rnd, poeni1, poeni2, brigraca = 1, delta, dodiry = -1;
 void init(int rand, int nigr, int delta);
 
 typedef struct {
@@ -39,6 +39,10 @@ void ctrprv(pravougaonik p) {
 
 void crtlpt(lopta l) {
     circ(l.x, l.y, l.r, 0);
+}
+
+void fpauza(){
+    pauza=!pauza;
 }
 
 pravougaonik i1, i2;
@@ -114,7 +118,7 @@ void poen(int i) {
         poeni2 += 1;
         if (poeni2 >= MAXPOENI) {
             init(++rnd, brigraca, delta);
-            prozor("pobedio je drugi",NULL);
+            prozor("pobedio je drugi",&fpauza);
             pauza = 1;
             l.x = SIRINA / 2;
             l.y = VISINA / 2;
@@ -127,7 +131,7 @@ void poen(int i) {
         poeni1 += 1;
         if (poeni1 >= MAXPOENI) {
             init(++rnd, brigraca, delta);
-            prozor("pobedio je prvi",NULL);
+            prozor("pobedio je prvi",&fpauza);
             pauza = 1;
             l.x = SIRINA / 2;
             l.y = VISINA / 2;
@@ -284,9 +288,8 @@ void petlja(char *keydown, char *keyup, int dy, int dlt) {
 python -m http.server 8080
 
 emcc .\wasm\sources\igra.c -o .\wasm\binary\test.js -s WASM=1 -s EXPORTED_FUNCTIONS="['_test','_puts']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']" 
-emcc -I .\wasm\sources .\wasm\sources\igra.c .\wasm\sources\engine.c -o .\wasm\binary\wasm.js -s WASM=1 -s EXPORTED_FUNCTIONS="['_petlja','_init','_puts','_main']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']"
+emcc -I .\wasm\sources .\wasm\sources\igra.c .\wasm\sources\engine.c -o .\wasm\binary\wasm.js -s WASM=1 -s EXPORTED_FUNCTIONS="['_petlja','_init','_puts','_main','_pozovif']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']"
 
-emcc -I ./wasm/sources ./wasm/sources/igra.c ./wasm/sources/engine.c -o ./wasm/binary/wasm.js -s WASM=1 -s EXPORTED_FUNCTIONS="['_petlja','_init','_puts','_main']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap']" 
 */
 
 // gore-'&'

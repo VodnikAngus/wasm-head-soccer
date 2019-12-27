@@ -12,6 +12,7 @@ const VISINA=1080;
 function load() {
   inicijalizacija = Module.cwrap("init", null, ["number", "number", "number"]);
   petlja = Module.cwrap("petlja", null, ["number", "number", "number", "number"]);
+  pozovif = Module.cwrap("pozovif", null, ["number"]);
   gameDiv = document.getElementById("gameDiv");
   gameUI = document.getElementById("gameUI");
   fullScreenToggle = document.getElementById("fullScreenToggle");
