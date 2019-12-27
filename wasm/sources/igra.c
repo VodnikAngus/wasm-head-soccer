@@ -114,7 +114,7 @@ void poen(int i) {
         poeni2 += 1;
         if (poeni2 >= MAXPOENI) {
             init(++rnd, brigraca, delta);
-            prozor("pobedio je drugi");
+            prozor("pobedio je drugi",NULL);
             pauza = 1;
             l.x = SIRINA / 2;
             l.y = VISINA / 2;
@@ -127,7 +127,7 @@ void poen(int i) {
         poeni1 += 1;
         if (poeni1 >= MAXPOENI) {
             init(++rnd, brigraca, delta);
-            prozor("pobedio je prvi");
+            prozor("pobedio je prvi",NULL);
             pauza = 1;
             l.x = SIRINA / 2;
             l.y = VISINA / 2;

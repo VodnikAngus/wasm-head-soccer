@@ -41,7 +41,7 @@ void cls() {
     });
 }
 
-void prozor(char* s) {
+void prozor(char* s,void (*f)()) {
     EM_ASM({
         let c;
         let poruka = "";
@@ -59,4 +59,8 @@ void prozor(char* s) {
         gameDiv.appendChild(prozor);
     },
            s);
+}
+
+void pozovif(void (*f)()){
+    f();
 }
